@@ -15,6 +15,9 @@ import (
 func main() {
 	runtime.LockOSThread()
 	var params gol.Params
+	var port string
+
+	flag.StringVar(&port, "port", "8888", "rpc server port")
 
 	flag.IntVar(
 		&params.Threads,
@@ -51,9 +54,9 @@ func main() {
 	fmt.Println("Width:", params.ImageWidth)
 	fmt.Println("Height:", params.ImageHeight)
 
-	rpc.Register(new(gol.CaculateStruct))
+	rpc.Register(new(gol.CalculateStruct))
 	rpc.HandleHTTP()
-	listen, err := net.Listen("tcp", "0.0.0.0:8888")
+	listen, err := net.Listen("tcp", "0.0.0.0:"+port)
 	if err != nil {
 		panic(err)
 	}
